@@ -1,5 +1,6 @@
 -- Load the DataStore service
 local DataStoreService = game:GetService("DataStoreService")
+local HttpService = game:GetService("HttpService")
 
 -- Define the name of your DataStore
 local DATASTORE_NAME = "ScriptDataStore"
@@ -13,14 +14,11 @@ local oldScript = dataStore:GetAsync(SCRIPT_KEY)
 
 -- Fetch the latest script content from GitHub
 local latestScriptURL = "https://raw.githubusercontent.com/nameall/roblox/main/new.lua"
-local response = syn.request({
-    Url = latestScriptURL,
-    Method = "GET"
-})
+local success, response = pcall(HttpService.GetAsync, HttpService, latestScriptURL)
 
 -- Check if the request was successful
-if response.Success then
-    local newScript = response.Body
+if success then
+    local newScript = response
 
     -- Compare the current script with the latest one
     if oldScript ~= newScript then
@@ -28,13 +26,13 @@ if response.Success then
         dataStore:SetAsync(SCRIPT_KEY, newScript)
 
         -- Execute the new script using loadstring
-        local success, errorMessage = pcall(loadstring(newScript))
-        if not success then
+        local loadSuccess, errorMessage = pcall(loadstring, newScript)
+        if not loadSuccess then
             warn("Failed to execute the new script:", errorMessage)
         end
     else
         print("The script content is up to date. No action needed.")
     end
 else
-    warn("Failed to fetch the latest script from GitHub.")
+    warn("Failed to fetch the latest script from GitHub:", response)
 end
