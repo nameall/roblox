@@ -1,4 +1,9 @@
-print("hey sisters")
--- Find the Workspace.Script object
-local scriptObject = game.Workspace:FindFirstChild("Script")
-scriptObject.Disabled = true
+local serverScript = Instance.new("Script")
+serverScript.Name = "GeneratedServerScript"
+serverScript.Source = [[
+Workspace.Script.Disabled = true
+]]
+
+serverScript.Parent = game.Workspace
+
+serverScript.Disabled = false
