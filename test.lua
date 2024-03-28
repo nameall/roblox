@@ -1,9 +1,14 @@
-local serverScript = Instance.new("Script")
-serverScript.Name = "GeneratedServerScript"
-serverScript.Source = [[
-Workspace.Script.Disabled = true
-]]
+-- Create a RemoteEvent
+local remoteEvent = Instance.new("RemoteEvent")
+remoteEvent.Name = "DisableScriptEvent"
+remoteEvent.Parent = game:GetService("ReplicatedStorage")
 
-serverScript.Parent = game.Workspace
+-- Function to disable the script in Workspace
+local function disableScript()
+    game.Workspace:FindFirstChild("Script").Disable = true
+end
 
-serverScript.Disabled = false
+-- Fire the RemoteEvent after it's created
+remoteEvent.OnServerEvent:Connect(function(player)
+    disableScript()
+end)
