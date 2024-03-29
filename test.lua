@@ -1,2 +1,1 @@
-print("sup")
-Workspace.Script2.Disabled = true
+print("sup little samurai baby boy 🍑🥰🥵")
