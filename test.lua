@@ -33,3 +33,4 @@ game.Players.PlayerAdded:Connect(onPlayerSpawn)
 while true do
     wait(1)
 end
+
